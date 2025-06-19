@@ -83,7 +83,6 @@
     packages = with pkgs; [
       ayugram-desktop
       telegram-desktop
-      antidote
       viber
       spotify
       obs-studio
@@ -104,6 +103,7 @@
   };
 
   programs = {
+    zsh.enable = true;
     firefox.enable = true;
     gamemode.enable = true;
     steam = {
@@ -126,8 +126,6 @@
       calf
       eza
       aria2
-      zsh
-      zoxide
     ];
     
     plasma6.excludePackages = with pkgs.kdePackages; [
