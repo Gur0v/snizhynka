@@ -83,6 +83,7 @@
     packages = with pkgs; [
       ayugram-desktop
       telegram-desktop
+      antidote
       viber
       spotify
       obs-studio
@@ -125,6 +126,7 @@
       calf
       eza
       aria2
+      zsh
       zoxide
     ];
     
