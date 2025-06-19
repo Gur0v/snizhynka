@@ -3,13 +3,19 @@
 
   boot = {
     loader = {
-      systemd-boot.enable = true;
-      systemd-boot.consoleMode = "0";
+      systemd-boot = {
+        enable = true;
+        consoleMode = "0";
+      };
       timeout = 0;
       efi.canTouchEfiVariables = true;
     };
     kernelPackages = pkgs.linuxPackages_zen;
-    kernelParams = [ "idle=nomwait" "processor.max_cstate=1" "rcu_nocbs=0-11" ];
+    kernelParams = [ 
+      "idle=nomwait" 
+      "processor.max_cstate=1" 
+      "rcu_nocbs=0-11" 
+    ];
     plymouth.enable = true;
   };
 
@@ -19,6 +25,7 @@
   };
 
   time.timeZone = "Europe/Kyiv";
+
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -39,6 +46,7 @@
       enable = true;
       xkb.layout = "us";
     };
+    
     displayManager = {
       sddm.enable = true;
       autoLogin = {
@@ -46,32 +54,51 @@
         user = "gurov";
       };
     };
+    
     desktopManager.plasma6.enable = true;
     printing.enable = true;
     flatpak.enable = true;
+    
     mullvad-vpn = {
       enable = true;
       package = pkgs.mullvad-vpn;
     };
+    
+    pipewire = {
+      enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      pulse.enable = true;
+    };
   };
 
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   users.users.gurov = {
     isNormalUser = true;
     description = "Gurov";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      ayugram-desktop telegram-desktop viber spotify
-      obs-studio clang llvm mold jdk prismlauncher
-      vlc easyeffects corefonts nerd-fonts.hack
-      (discord-canary.override { withOpenASAR = true; withVencord = true; })
+      ayugram-desktop
+      telegram-desktop
+      viber
+      spotify
+      obs-studio
+      clang
+      llvm
+      mold
+      jdk
+      prismlauncher
+      vlc
+      easyeffects
+      corefonts
+      nerd-fonts.hack
+      (discord-canary.override { 
+        withOpenASAR = true; 
+        withVencord = true; 
+      })
     ];
   };
 
@@ -86,22 +113,35 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-  virtualisation.waydroid.enable = true;
-  zramSwap.enable = true;
-
   environment = {
     systemPackages = with pkgs; [
-      neovim git fastfetch ripgrep wl-clipboard
-      unrar p7zip calf tree bsdgames aria2 zoxide
+      neovim
+      git
+      fastfetch
+      ripgrep
+      wl-clipboard
+      unrar
+      p7zip
+      calf
+      eza
+      aria2
+      zoxide
     ];
+    
     plasma6.excludePackages = with pkgs.kdePackages; [
-      khelpcenter elisa
+      khelpcenter
+      elisa
     ];
   };
 
-  nix.settings.experimental-features = [
-    "nix-command" "flakes"
+  nixpkgs.config.allowUnfree = true;
+  
+  virtualisation.waydroid.enable = true;
+  zramSwap.enable = true;
+  
+  nix.settings.experimental-features = [ 
+    "nix-command" 
+    "flakes" 
   ];
 
   system.stateVersion = "25.05";
