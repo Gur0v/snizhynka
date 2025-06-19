@@ -104,8 +104,11 @@
 
   programs = {
     zsh.enable = true;
-    firefox.enable = true;
     gamemode.enable = true;
+    firefox = {
+      enable = true;
+      package = pkgs.firefox-devedition;
+    };
     steam = {
       enable = true;
       package = pkgs.steam.override {
